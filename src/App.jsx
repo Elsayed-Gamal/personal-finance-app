@@ -1,9 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router";
-import Home from "./Pages/Home";
 import Transactions from "./Pages/Transactions";
 import Layout from "./Pages/Layout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Overview from "./Pages/Overview";
+import Pots from "./Pages/Pots";
 
 const queryClient = new QueryClient();
 
@@ -14,8 +15,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>
-            <Route index element={<Home />} />
+            <Route index element={<Overview />} />
             <Route path="/transactions" element={<Transactions />} />
+            <Route path="/pots" element={<Pots />} />
           </Route>
         </Routes>
       </BrowserRouter>
