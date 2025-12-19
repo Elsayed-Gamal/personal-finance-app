@@ -4,6 +4,7 @@ import { getPots } from "../../services/apiPots";
 import Pot from "./Pot";
 import Loading from "../../ui/Loading";
 import Message from "../../ui/Message";
+import Menus from "../../ui/Menus";
 
 const parentVariant = {
   hidden: {},
@@ -45,11 +46,13 @@ function PotsContainer() {
       initial="hidden"
       animate="visible"
     >
-      {pots.map((pot) => (
-        <motion.div key={pot.name} variants={itemVariant}>
-          <Pot pot={pot} />
-        </motion.div>
-      ))}
+      <Menus>
+        {pots.map((pot) => (
+          <motion.div key={pot.name} variants={itemVariant}>
+            <Pot pot={pot} />
+          </motion.div>
+        ))}
+      </Menus>
     </motion.div>
   );
 }
