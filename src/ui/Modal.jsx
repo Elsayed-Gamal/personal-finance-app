@@ -10,7 +10,7 @@ import { createPortal } from "react-dom";
 import CloseModalIcon from "../assets/images/icon-close-modal.svg?react";
 import { AnimatePresence, motion } from "motion/react";
 
-const ModalContext = createContext();
+export const ModalContext = createContext();
 
 function Modal({ children }) {
   const [openName, setOpenName] = useState("");
@@ -70,7 +70,7 @@ function Content({ children, name }) {
             exit={{ scale: 0.8 }}
           >
             <CloseModalIcon
-              className="absolute top-8 right-8 cursor-pointer"
+              className="absolute top-[38px] right-[38px] cursor-pointer"
               onClick={close}
             />
             {children}

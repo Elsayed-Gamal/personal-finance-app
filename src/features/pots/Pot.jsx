@@ -4,6 +4,8 @@ import Modal from "../../ui/Modal";
 import AddWithdrawMoney from "./AddWithdrawMoney";
 import EllipsisIcon from "../../assets/images/icon-ellipsis.svg?react";
 import Menus from "../../ui/Menus";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import AddEditPot from "./AddEditPot";
 
 function Pot({ pot }) {
   return (
@@ -25,20 +27,28 @@ function Pot({ pot }) {
           <EllipsisIcon />
         </Menus.Toggle>
       </div>
-      <Menus.List id={pot.name}>
-        <Menus.Button
-        // onClick={() => console.log(`Edit ${pot.name} pot`)}
-        >
-          Edit Pot
-        </Menus.Button>
-        <div className="bg-grey-100 h-px w-full"></div>
-        <Menus.Button
-          type="delete"
-          // onClick={() => console.log(`Delete ${pot.name} pot`)}
-        >
-          Delete Pot
-        </Menus.Button>
-      </Menus.List>
+      <Modal>
+        <Menus.List id={pot.name}>
+          <Modal.Open opens="edit-pot">
+            <Menus.Button
+            // onClick={() => console.log(`Edit ${pot.name} pot`)}
+            >
+              Edit Pot
+            </Menus.Button>
+          </Modal.Open>
+          <div className="bg-grey-100 h-px w-full"></div>
+          <Modal.Open opens="delete-pot">
+            <Menus.Button type="delete">Delete Pot</Menus.Button>
+          </Modal.Open>
+        </Menus.List>
+
+        <Modal.Content name="edit-pot">
+          <AddEditPot type="edit" pot={pot} />
+        </Modal.Content>
+        <Modal.Content name="delete-pot">
+          <ConfirmDelete potName={pot.name} />
+        </Modal.Content>
+      </Modal>
 
       <div className="flex flex-col gap-4 py-[10.5px]">
         <div className="flex justify-between">

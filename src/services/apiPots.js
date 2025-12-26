@@ -1,3 +1,4 @@
+import { getBalance, updateBalance } from "./apiBalance";
 import supabase from "./supabase";
 
 export async function getPots() {
@@ -12,21 +13,104 @@ export async function getPots() {
   return pots;
 }
 
-// export async function updatePot(potName, amount) {
-//   const { error: potError } = await supabase
-//     .from("pots")
-//     .update({ total: total + amount })
-//     .eq("name", potName);
+export async function getPotDetails(potName) {
+  const { data: potDetails, error } = await supabase
+    .from("pots")
+    .select("name, target, total, theme")
+    .eq("name", potName);
 
-//   const { error: balanceError } = await supabase
-//     .from("balance")
-//     .update({ current: current - amount });
+  if (error) {
+    throw new Error(error.message);
+  }
 
-//   if (potError) {
-//     throw new Error(potError.message);
-//   }
+  return potDetails[0];
+}
 
-//   if (balanceError) {
-//     throw new Error(balanceError.message);
-//   }
-// }
+export async function addPot(pot) {
+  const { data, error } = await supabase.from("pots").insert([pot]).select();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}
+
+export async function editPot({ potName, updatedFields }) {
+  const { data, error } = await supabase
+    .from("pots")
+    .update(updatedFields)
+    .eq("name", potName)
+    .select();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+}
+
+export async function deletePot(potName) {
+  const { total } = await getPotDetails(potName);
+  const balance = await getBalance();
+
+  await updateBalance(balance + total);
+
+  const { error } = await supabase.from("pots").delete().eq("name", potName);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function addMoneyToPot({ potName, amount }) {
+  const { total, target } = await getPotDetails(potName);
+  const balance = await getBalance();
+  const newTotal = total + amount;
+
+  if (amount > balance) {
+    throw new Error("Insufficient balance to add this amount to the pot.");
+  }
+
+  if (newTotal > target) {
+    throw new Error("Adding this amount exceeds the pot's target.");
+  }
+
+  const { error } = await supabase
+    .from("pots")
+    .update({ total: newTotal })
+    .eq("name", potName);
+
+  await updateBalance(balance - amount);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function withdrawMoneyFromPot({ potName, amount }) {
+  const { total } = await getPotDetails(potName);
+  const balance = await getBalance();
+  const newTotal = total - amount;
+
+  if (amount > total) {
+    throw new Error("Insufficient funds in the pot to withdraw this amount.");
+  }
+
+  if (newTotal < 0) {
+    throw new Error(
+      "Withdrawing this amount would make the pot total negative.",
+    );
+  }
+
+  const { error } = await supabase
+    .from("pots")
+    .update({ total: newTotal })
+    .eq("name", potName);
+
+  await updateBalance(balance + amount);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+}

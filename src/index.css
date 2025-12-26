@@ -92,3 +92,9 @@
   --text-preset-5-bold: var(--font-weight-bold) 12px/150%
     var(--font-family-public-sans);
 }
+
+@layer components {
+  .form-input {
+    @apply border-beige-500 text-grey-900 rounded-lg border p-3 outline-none;
+  }
+}

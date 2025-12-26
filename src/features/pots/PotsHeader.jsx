@@ -23,7 +23,7 @@ function PotsHeader() {
           </button>
         </Modal.Open>
         <Modal.Content name="create-pot">
-          <AddEditPot />
+          <AddEditPot type="add" />
         </Modal.Content>
       </Modal>
     </div>

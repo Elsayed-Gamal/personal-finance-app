@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { getPots } from "../../services/apiPots";
 import Pot from "./Pot";
 import Loading from "../../ui/Loading";
@@ -10,7 +10,7 @@ const parentVariant = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.3,
+      staggerChildren: 0.1,
     },
   },
 };
@@ -47,11 +47,20 @@ function PotsContainer() {
       animate="visible"
     >
       <Menus>
-        {pots.map((pot) => (
-          <motion.div key={pot.name} variants={itemVariant}>
-            <Pot pot={pot} />
-          </motion.div>
-        ))}
+        <AnimatePresence mode="popLayout">
+          {pots.map((pot) => (
+            <motion.div
+              key={pot.name}
+              variants={itemVariant}
+              layout
+              initial="hidden"
+              animate="visible"
+              exit={{ opacity: 0, scale: 0.9 }}
+            >
+              <Pot pot={pot} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </Menus>
     </motion.div>
   );
