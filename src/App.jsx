@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Overview from "./Pages/Overview";
 import Pots from "./Pages/Pots";
+import RecurringBills from "./Pages/RecurringBills";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ function App() {
             <Route index element={<Overview />} />
             <Route path="/transactions" element={<Transactions />} />
             <Route path="/pots" element={<Pots />} />
+            <Route path="/recurring-bills" element={<RecurringBills />} />
           </Route>
         </Routes>
       </BrowserRouter>

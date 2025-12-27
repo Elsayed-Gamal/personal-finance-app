@@ -35,7 +35,7 @@ function Body({ children }) {
   return <div>{children}</div>;
 }
 
-function Row({ children }) {
+function Row({ children, styles }) {
   const { columns } = useContext(TableContext);
   return (
     <div
@@ -45,6 +45,7 @@ function Row({ children }) {
         display: "grid",
         gridTemplateColumns: `${columns}`,
         padding: "12px 16px",
+        ...styles,
       }}
     >
       {children}

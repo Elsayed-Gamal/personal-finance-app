@@ -2,6 +2,7 @@ import { NavLink } from "react-router";
 import OverviewIcon from "../assets/images/icon-nav-overview.svg?react";
 import TransactionsIcon from "../assets/images/icon-nav-transactions.svg?react";
 import PotsIcon from "../assets/images/icon-nav-pots.svg?react";
+import RecIcon from "../assets/images/icon-nav-recurring-bills.svg?react";
 
 function Sidebar() {
   const navLinkClass = ({ isActive }) =>
@@ -57,6 +58,20 @@ function Sidebar() {
                 <>
                   <PotsIcon className={iconClass(isActive)} />
                   Pots
+                </>
+              )}
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/recurring-bills"
+              className={navLinkClass}
+              style={{ font: "var(--text-preset-3)" }}
+            >
+              {({ isActive }) => (
+                <>
+                  <RecIcon className={iconClass(isActive)} />
+                  Recurring Bills
                 </>
               )}
             </NavLink>
