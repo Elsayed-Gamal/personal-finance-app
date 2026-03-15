@@ -1,4 +1,7 @@
 export function formatCurrency(amount, digits = 2) {
+  if (isNaN(amount)) return "-";
+  if (amount < 0) amount = Math.abs(amount);
+
   if (digits < 0) digits = 0;
   return new Intl.NumberFormat("en-US", {
     style: "currency",

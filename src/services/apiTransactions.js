@@ -36,3 +36,16 @@ export async function getTransactions(
 
   return { transactions, count };
 }
+
+export async function getRecurringBills() {
+  const { data: recurringBills, error } = await supabase
+    .from("unique_recurring_bills")
+    .select("*")
+    .order("day", { ascending: true });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return recurringBills;
+}
